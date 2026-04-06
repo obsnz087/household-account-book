@@ -23,13 +23,13 @@ const categoryOptions = {
         { value: 'entertainment', label: '交際費' },
         { value: 'hobby', label: '趣味・嗜好' },
         { value: 'subsc', label: 'サブスク' },
-        { value: 'other', label: 'その他支出' }
+        { value: 'otherExp', label: 'その他支出' }
     ],
     income: [
         { value: 'salary', label: '給与' },
         { value: 'income', label: 'おこづかい' },
         { value: 'carry_over', label: '繰越金' },
-        { value: 'other', label: 'その他収入' }
+        { value: 'otherInc', label: 'その他収入' }
     ]
 };
 
