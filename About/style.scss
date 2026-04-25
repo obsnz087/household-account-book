@@ -1,0 +1,74 @@
+$breakpoints: (
+    'sm': 'screen and (max-width: 599px)',
+    'tb': 'screen and (min-width: 600px)',
+    ) !default;
+
+@mixin mq($breakpoint) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+$white: #FEFAF6;
+
+$acc1: #f7f1e9;
+$acc1-2: #efeeec;
+$acc2: #EADBC8;
+$acc3: #DAC0A3;
+$acc4: #102C57;
+
+* {
+    margin: 0 auto;
+    max-width: 1360px;
+}
+body{
+    font-family: 'Noto Sans JP',sans-serif;
+    background: $white;
+}
+main{
+    max-width: 800px;
+}
+
+.page-title{
+    font-family: 'Albert Sans', 'Noto Sans JP', sans-serif;
+    font-size:25px;
+    font-weight: 600;
+    margin:50px 0 25px;
+}
+
+.img-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:15px;
+    margin:25px 0;
+    .img-wrapper{
+        img{
+            border-radius: 10px;
+            width: 100%;
+        }
+    }
+}
+
+article{
+    margin-bottom:15px;
+}
+p{
+        font-family: 'Albert Sans', 'Noto Sans JP', sans-serif;
+        line-height:1.75;
+}
+
+a{
+    &.link{
+        position: relative;
+        color: $acc4;
+        &::after{
+            content:'';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom:0;
+            left:0;
+            background: $acc4;
+        }
+    }
+}

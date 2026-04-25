@@ -28,7 +28,7 @@ body {
   border-radius: 20px;
   -webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  width: 100%;
+  width: 90%;
   max-width: 400px;
   text-align: center;
 }
@@ -43,6 +43,16 @@ body {
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
   color: #a8a8a8;
+}
+#auth-container .auth_box .login-page-link {
+  font-size: 12px;
+  position: fixed;
+  bottom: 65px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  color: #a8a8a8;
+  text-decoration: underline;
 }
 #auth-container .auth_box input {
   width: 100%;
