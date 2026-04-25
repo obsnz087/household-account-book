@@ -104,7 +104,7 @@ function updateHistoryDisplay() {
         }
     });
 
-    // 選択された月の末日を取得する
+    // 選択された月の末日を取得
     const lastDayOfMonth = new Date(currentYear, currentMonth === 'annual' ? 12 : currentMonth, 0);
 
     // 「アプリ開始時」から「選択した月の末日」までの全データを抽出
@@ -153,16 +153,16 @@ function updateHistoryDisplay() {
     // テーブルの描画
     historyList.innerHTML = '';
 
-    let dayTotal = 0;   // その日の合計（収支）
-    let dayCount = 0;   // その日の登録件数
+    let dayTotal = 0;   // 合計
+    let dayCount = 0;   // 登録件数
 
     filteredHistory.forEach((item, index) => {
-        // 1. その日の合計と件数をカウント
+        // 合計と件数をカウント
         const amount = item.type === 'expense' ? -item.amount : item.amount;
         dayTotal += amount;
         dayCount++;
 
-        // 2. 通常の明細行を作成して追加
+        //通常の明細行を作成して追加
         const tr = document.createElement('tr');
 
 
@@ -198,7 +198,7 @@ function updateHistoryDisplay() {
             `;
             historyList.appendChild(totalTr);
 
-            // 日付が変わるのでリセット
+            // リセット
             dayTotal = 0;
             dayCount = 0;
         }
@@ -207,7 +207,7 @@ function updateHistoryDisplay() {
     // 前月比の計算
     calculatePrevMonthDiff(monthlyIncome, monthlyExpense);
 
-    //円グラフ・棒グラフの表示制御
+    //円グラフ・棒グラフ
     if (currentMonth === 'annual') {
         document.getElementById('annual-chart-container').style.display = 'block';
         document.getElementById('expense-chart-container').style.display = 'none'; // 円グラフの親
@@ -215,7 +215,7 @@ function updateHistoryDisplay() {
     } else {
         document.getElementById('annual-chart-container').style.display = 'none';
         document.getElementById('expense-chart-container').style.display = 'block';
-        updateChart(catTotals); // 以前作った円グラフ
+        updateChart(catTotals); //円グラフ
     }
 }
 
@@ -240,24 +240,23 @@ function updateChart(catTotals) {
                 catTotals.otherExp
             ],
             backgroundColor: [
-                '#FF6384', // 食費：ピンク
-                '#36A2EB', // 交通費：青
-                '#FFCE56', // 交際費：黄
-                '#9966ff',  // その他：緑
-                '#87aa66',  // その他：緑
-                '#4BC0C0'  // その他：緑
+                '#FF6384', // 食費
+                '#36A2EB', // 交通費
+                '#FFCE56', // 交際費
+                '#9966ff',  // 趣味嗜好
+                '#87aa66',  // サブスク
+                '#4BC0C0'  // その他
             ],
             hoverOffset: 4
         }]
     };
 
-    // すでにグラフが存在する場合は、一度壊してから作り直す（再描画のバグ防止）
     if (myChart) {
         myChart.destroy();
     }
 
     myChart = new Chart(ctx, {
-        type: 'doughnut', // ドーナツグラフ（円グラフ pie も選べます）
+        type: 'doughnut',
         data: data,
         options: {
             responsive: true,
@@ -272,7 +271,7 @@ function updateChart(catTotals) {
             },
             plugins: {
                 legend: {
-                    position: 'bottom', // 凡例を下に表示
+                    position: 'bottom',
                 }
             }
         }
@@ -294,24 +293,24 @@ function renderLineChart() {
                 {
                     label: '総資産',
                     data: stats.monthlyBalances,
-                    borderColor: '#102C57', // 濃い紺
+                    borderColor: '#102C57',
                     backgroundColor: 'rgba(16, 44, 87, 0.1)',
                     fill: true,
                     tension: 0.3,
-                    yAxisID: 'y', // メインの軸
+                    yAxisID: 'y',
                 },
                 {
                     label: '月間収入',
                     data: stats.monthlyIncomes,
-                    borderColor: '#3d9b3d', // 緑
+                    borderColor: '#3d9b3d',
                     backgroundColor: 'transparent',
                     tension: 0.3,
-                    yAxisID: 'y1', // 右側の軸（金額の桁が違う場合用）
+                    yAxisID: 'y1', 
                 },
                 {
                     label: '月間支出',
                     data: stats.monthlyExpenses,
-                    borderColor: '#d95252', // 赤
+                    borderColor: '#d95252',
                     backgroundColor: 'transparent',
                     tension: 0.3,
                     yAxisID: 'y1',
@@ -323,24 +322,24 @@ function renderLineChart() {
             maintainAspectRatio: false,
             scales: {
                 x: {
-                    grid: { display: false } // X軸の縦線を消すとスッキリします
+                    grid: { display: false } 
                 },
                 y: {
                     type: 'linear',
                     display: true,
                     position: 'left',
                     title: { display: false, text: '総資産' },
-                    beginAtZero: false,      // 資産額なら false の方が推移が強調されます
-                    grace: '5%',              // 上下に少しだけ余白を作る
+                    beginAtZero: false,
+                    grace: '5%',
                     ticks: {
-                        // ここでラベルの表示形式をカスタマイズ
+                        // ラベルの表示形式をカスタマイズ
                         callback: function (value, index, values) {
                             if (Math.abs(value) >= 1000) {
                                 return (value / 10000) + '万';
                             }
                             return value;
                         },
-                        // フォントサイズを小さくする
+                        // フォントサイズ
                         font: {
                             size: 10
                         }
@@ -350,17 +349,17 @@ function renderLineChart() {
                     type: 'linear',
                     display: true,
                     position: 'right',
-                    grid: { drawOnChartArea: false }, // 右側のグリッド線は消す
+                    grid: { drawOnChartArea: false },
                     title: { display: false, text: '月間収支' },
                     ticks: {
-                        // ここでラベルの表示形式をカスタマイズ
+                        // ラベルの表示形式をカスタマイズ
                         callback: function (value, index, values) {
                             if (Math.abs(value) >= 1000) {
                                 return (value / 10000) + '万';
                             }
                             return value;
                         },
-                        // フォントサイズを小さくする
+                        // フォントサイズ
                         font: {
                             size: 10
                         }
@@ -382,7 +381,7 @@ function getMonthlyStatsData() {
         const startOfMonth = new Date(currentYear, m - 1, 1);
         const endOfMonth = new Date(currentYear, m, 0);
 
-        // ① その月「だけ」の集計（収入・支出）
+        // その月だけの集計
         const currentMonthData = history.filter(item => {
             const d = new Date(item.date);
             return d >= startOfMonth && d <= endOfMonth;
@@ -396,7 +395,7 @@ function getMonthlyStatsData() {
             .filter(item => item.type === 'expense')
             .reduce((acc, item) => acc + item.amount, 0);
 
-        // ② その月の「末日時点」での総残高（累積）
+        // その月の「末日時点」での総残高（累積）
         const balance = history
             .filter(item => new Date(item.date) <= endOfMonth)
             .reduce((acc, item) => item.type === 'income' ? acc + item.amount : acc - item.amount, 0);
@@ -433,7 +432,7 @@ async function deleteTransaction(id) {
 
 let isLoginMode = true; // ログインか新規登録かのフラグ
 
-// 画面切り替え（ログイン ↔ アプリ）
+// 画面切り替え
 function toggleView(user) {
     const authView = document.getElementById('auth-container');
     const appView = document.getElementById('app-container');
@@ -455,11 +454,11 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
     const password = document.getElementById('auth-password').value;
 
     if (isLoginMode) {
-        // ログイン処理
+        // ログイン
         const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
         if (error) alert("ログイン失敗: " + error.message);
     } else {
-        // 新規登録処理
+        // 新規登録
         const { error } = await supabaseClient.auth.signUp({ email, password });
         if (error) alert("登録エラー: " + error.message);
         else alert("確認メールを送信しました！メール内のリンクをクリックしてください。");
@@ -561,7 +560,7 @@ function setDiffText(id, val, isExp) {
 }
 
 // ==========================================
-// 5. イベントリスナー登録
+// 5. イベントリスナー
 // ==========================================
 
 // 年切り替え
@@ -574,7 +573,6 @@ document.querySelectorAll('.month_btn').forEach(btn => {
         document.querySelectorAll('.month_btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // data-month が 'annual' なら文字列として、数字なら数値として保存
         const val = btn.dataset.month;
         currentMonth = val === 'annual' ? 'annual' : Number(val);
 
@@ -587,22 +585,20 @@ document.querySelectorAll('input[name="transaction-type"]').forEach(r => {
     r.addEventListener('change', (e) => updateCategoryMenu(e.target.value));
 });
 
-// 今日の日付をフォームの初期値に設定する
+// フォームの日付を今日にする
 function setDefaultDate() {
     const dateInput = document.querySelector('input[name="date"]');
     if (!dateInput) return;
 
-    // JavaScriptで「今日」を取得して、YYYY-MM-DD形式に変換
+    // YYYY-MM-DD形式に変換
     const now = new Date();
 
-    // 日本時間に合わせた YYYY-MM-DD の作成
     const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // 月は0から始まるので+1
+    const month = String(now.getMonth() + 1).padStart(2, '0'); 
     const day = String(now.getDate()).padStart(2, '0');
 
     const today = `${year}-${month}-${day}`;
 
-    // フォームにセット！
     dateInput.value = today;
 }
 
@@ -641,9 +637,6 @@ const initialBtn = document.querySelector(`.month_btn[data-month="${currentMonth
 if (initialBtn) initialBtn.classList.add('active');
 fetchTransactions();
 
-//
-//
-//
 
 // サインアップ（新規登録）
 async function signUp(email, password) {
